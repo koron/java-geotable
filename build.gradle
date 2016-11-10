@@ -7,7 +7,7 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.+'
     compile 'org.isuper:s2-geometry-library-java:0.0.1'
+    compile 'javax.json:javax.json-api:1.0'
+    compile 'org.glassfish:javax.json:1.0.+'
     //compile 'com.univocity:univocity-parsers:2.2.2'
-    //compile 'javax.json:javax.json-api:1.0'
-    //compile 'org.glassfish:javax.json:1.0.+'
 }
