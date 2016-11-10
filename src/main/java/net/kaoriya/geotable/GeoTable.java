@@ -10,7 +10,15 @@ import net.kaoriya.geotable.intervaltree.IntervalTree;
 
 public class GeoTable<T> {
 
-    final IntervalTree<T> tree = new IntervalTree<>();
+    final IntervalTree<T> tree;
+
+    public GeoTable() {
+        this(new IntervalTree<T>());
+    }
+
+    GeoTable(IntervalTree<T> tree) {
+        this.tree = tree;
+    }
 
     public void add(S2CellUnion region, T value) {
         for (S2CellId cellId : region) {
@@ -30,5 +38,12 @@ public class GeoTable<T> {
 
     public List<T> find(S2CellId cellId) {
         return tree.get(cellId.id());
+    }
+
+    /**
+     * setup internal index for optimization.
+     */
+    public void build() {
+        tree.build();
     }
 }
