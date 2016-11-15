@@ -33,6 +33,10 @@ public class GeoJsonReader {
         this.coverer = coverer;
     }
 
+    public S2RegionCoverer getCoverer() {
+        return coverer;
+    }
+
     public void readAll(File file, BiPredicate<S2CellUnion, Map<String, Object>> fn) throws IOException {
         FeatureCollection fc = read(file);
         for (Feature f : fc) {
