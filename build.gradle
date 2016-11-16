@@ -16,8 +16,18 @@ task 'load-geojson' (type:JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+// Convert GeoJSON of Japan to TSV (geo string)
 task 'convert-japan-geojson' (type:JavaExec) {
     main = 'net.kaoriya.geotable.cmd.ConvertJapanGeoJson'
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+');
+    }
+}
+
+// Benchmark Japan region query
+task 'benchmark-japan-query' (type:JavaExec) {
+    main = 'net.kaoriya.geotable.cmd.BenchmarkJapanQuery'
     classpath = sourceSets.main.runtimeClasspath
     if (project.hasProperty('args')) {
         args project.args.split('\\s+');

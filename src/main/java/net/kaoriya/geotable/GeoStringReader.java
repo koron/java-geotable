@@ -29,6 +29,9 @@ public class GeoStringReader implements Closeable {
 
     public Item read() throws IOException {
         String s = br.readLine();
+        if (s == null) {
+            return null;
+        }
         String[] items = s.split("\t");
         if (items.length < 2) {
             throw new IOException("two or more columns required");
