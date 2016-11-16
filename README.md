@@ -4,7 +4,7 @@
 
         $ gradle convert-japan-geojson -Pargs='{INFILE} {OUTFILE}'
 
-    It will take massive memory (4GB) and very long time (10min or so).
+    It might require large memory (about 4GB) and take long time (about 10min).
 
 2.  Load GeoString TSV then query.
 
