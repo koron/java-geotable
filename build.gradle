@@ -15,3 +15,11 @@ task 'load-geojson' (type:JavaExec) {
     main = 'net.kaoriya.geotable.cmd.LoadGeoJson'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task 'convert-japan-geojson' (type:JavaExec) {
+    main = 'net.kaoriya.geotable.cmd.ConvertJapanGeoJson'
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+');
+    }
+}

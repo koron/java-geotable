@@ -41,7 +41,7 @@ public class GeoJsonReader {
         FeatureCollection fc = read(file);
         for (Feature f : fc) {
             S2CellUnion cu = toCellUnion(f);
-            if (!fn.test(null, f.getProperties())) {
+            if (!fn.test(cu, f.getProperties())) {
                 break;
             }
         }
