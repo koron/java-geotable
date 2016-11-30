@@ -1,12 +1,39 @@
-## Usage
+## Sample code
 
-1.  Convert GeoJSON to GeoString TSV.
+```java
+import java.io.File;
+import java.util.List;
 
-        $ gradle convert-japan-geojson -Pargs='{INFILE} {OUTFILE}'
+import net.kaoriya.geotable.GeoStringReader;
+import net.kaoriya.geotable.GeoTable;
 
-    It might require large memory (about 4GB) and take long time (about 10min).
+// Load GeoString TSV
+GeoTable<String> t = GeoStringReader.loadAsTable(new File("japan_cities.tsv"));
 
-2.  Load GeoString TSV then query.
+// Make a query (with latitude and longitude)
+List<String> r = t.find(35.702265, 139.780935);
+if (r.size() == 0) {
+    // no data for the point
+}
+```
+
+Now `r` have list of 5 digit numbers as [全国地方公共団体コード][2] (without
+check digit).  And `r` will be empty if no data found for that points.
+
+## Minimum jars to query (run benchmark)
+
+To make queries with geotable, it requires three jar files.
+
+*   geotable-0.0.1jar
+*   s2-geometry-library-java-0.0.1.jar
+*   guava-18.0.jar
+
+If you placed those jars in current dir, you could run benchmark like this.
+
+    $ java -cp "geotable-0.0.1.jar;s2-geometry-library-java-0.0.1.jar;guava-18.0.jar" \
+      net.kaoriya.geotable.cmd.BenchmarkJapanQuery japan_cities.tsv
+
+You can download those jar files from [release][1]
 
 ## Generate GeoString TSV file for cities in Japan
 
@@ -25,6 +52,16 @@ japan_cities.tsv
 ```
 
 You'll get a `japan_cities.tsv` file in current directory.
+
+## Usage
+
+1.  Convert GeoJSON to GeoString TSV.
+
+        $ gradle convert-japan-geojson -Pargs='{INFILE} {OUTFILE}'
+
+    It might require large memory (about 4GB) and take long time (about 10min).
+
+2.  Load GeoString TSV then query.
 
 ## Benchmark
 
@@ -52,43 +89,6 @@ You'll get a `japan_cities.tsv` file in current directory.
     Lap random-out: 1.243102 sec
       hit-rate: 0.000  qps: 804439.190
     ```
-
-## Minimum jars to query (run benchmark)
-
-To make queries with geotable, requires three jar files.
-
-*   geotable-0.0.1jar
-*   s2-geometry-library-java-0.0.1.jar
-*   guava-18.0.jar
-
-If you placed those jars in current dir, you could run benchmark like this.
-
-    $ java -cp "geotable-0.0.1.jar;s2-geometry-library-java-0.0.1.jar;guava-18.0.jar" \
-      net.kaoriya.geotable.cmd.BenchmarkJapanQuery japan_cities.tsv
-
-You can download those jar files from [release][1]
-
-## Sample code
-
-```java
-import java.io.File;
-import java.util.List;
-
-import net.kaoriya.geotable.GeoStringReader;
-import net.kaoriya.geotable.GeoTable;
-
-// Load GeoString TSV
-GeoTable<String> t = GeoStringReader.loadAsTable(new File("japan_cities.tsv"));
-
-// Make a query (with latitude and longitude)
-List<String> r = t.find(35.702265, 139.780935);
-if (r.size() == 0) {
-    // no data for the point
-}
-```
-
-Now `r` have list of 5 digit numbers as [全国地方公共団体コード][2] (without
-check digit).  And `r` will be empty if no data found for that points.
 
 ## Test data
 
