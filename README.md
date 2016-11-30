@@ -68,9 +68,32 @@ If you placed those jars in current dir, you could run benchmark like this.
 
 You can download those jar files from [release][1]
 
+## Sample code
+
+```java
+import java.io.File;
+import java.util.List;
+
+import net.kaoriya.geotable.GeoStringReader;
+import net.kaoriya.geotable.GeoTable;
+
+// Load GeoString TSV
+GeoTable<String> t = GeoStringReader.loadAsTable(new File("japan_cities.tsv"));
+
+// Make a query (with latitude and longitude)
+List<String> r = t.find(35.702265, 139.780935);
+if (r.size() == 0) {
+    // no data for the point
+}
+```
+
+Now `r` have list of 5 digit numbers as [全国地方公共団体コード][2] (without
+check digit).  And `r` will be empty if no data found for that points.
+
 ## Test data
 
 *   <https://github.com/niiyz/JapanCityGeoJson/>
 *   <https://github.com/dataofjapan/land>
 
 [1]:https://github.com/koron/java-geotable/releases/v0.0.1
+[2]:http://www.soumu.go.jp/denshijiti/code.html
