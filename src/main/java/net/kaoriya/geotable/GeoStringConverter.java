@@ -33,23 +33,48 @@ public class GeoStringConverter {
     {
         GeoJsonReader r = new GeoJsonReader(coverer);
         try(final GeoStringWriter w = new GeoStringWriter(outfile)) {
-            final IOException[] ex = new IOException[1];
-            r.readAll(infile, (cu, props) -> {
-                String s = mapper.apply(props);
-                if (s == null) {
-                    return true;
-                }
-                try {
-                    w.write(cu, s);
-                } catch (IOException e) {
-                    ex[0] = e;
-                    return false;
-                }
-                return true;
-            });
-            if (ex[0] != null) {
-                throw ex[0];
+            convertGeoJson(infile, r, w, mapper);
+        }
+    }
+
+    public static void convertGeoJson(
+            File[] infiles,
+            File outfile,
+            S2RegionCoverer coverer,
+            Function<Map<String, Object>, String> mapper)
+        throws IOException
+    {
+        GeoJsonReader r = new GeoJsonReader(coverer);
+        try(final GeoStringWriter w = new GeoStringWriter(outfile)) {
+            for (File infile : infiles) {
+                convertGeoJson(infile, r, w, mapper);
             }
+        }
+    }
+
+    private static void convertGeoJson(
+            File infile,
+            GeoJsonReader r,
+            GeoStringWriter w,
+            Function<Map<String, Object>, String> mapper)
+        throws IOException
+    {
+        final IOException[] ex = new IOException[1];
+        r.readAll(infile, (cu, props) -> {
+            String s = mapper.apply(props);
+            if (s == null) {
+                return true;
+            }
+            try {
+                w.write(cu, s);
+            } catch (IOException e) {
+                ex[0] = e;
+                return false;
+            }
+            return true;
+        });
+        if (ex[0] != null) {
+            throw ex[0];
         }
     }
 }
