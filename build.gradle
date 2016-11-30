@@ -1,6 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+version = '0.0.1'
+
 repositories {
     mavenCentral()
 }
@@ -31,5 +33,13 @@ task 'benchmark-japan-query' (type:JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     if (project.hasProperty('args')) {
         args project.args.split('\\s+');
+    }
+}
+
+task 'copy-dependencies' (type:Copy) {
+    new File('build/dependent-libs').mkdirs()
+    copy {
+        from configurations.runtime
+        into 'build/dependent-libs'
     }
 }
