@@ -57,9 +57,14 @@ You'll get a `japan_cities.tsv` file in current directory.
 
 1.  Convert GeoJSON to GeoString TSV.
 
-        $ gradle convert-japan-geojson -Pargs='{INFILE} {OUTFILE}'
+        $ gradle convert-japan-geojson -Pargs='[OPTIONS] {INFILES} {OUTFILE}'
 
     It might require large memory (about 4GB) and take long time (about 10min).
+
+    Options:
+
+    *   `-mc <arg>` / `--maxcells <arg>` :
+        max cells to represent each region (default: 50).
 
 2.  Load GeoString TSV then query.
 

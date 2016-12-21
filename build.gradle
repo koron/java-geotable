@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-version = '0.0.1'
+version = '0.0.2-snapshot'
 
 repositories {
     mavenCentral()
@@ -11,6 +11,7 @@ dependencies {
     testCompile 'junit:junit:4.+'
     compile 'org.isuper:s2-geometry-library-java:0.0.1'
     compile 'de.grundid.opendatalab:geojson-jackson:1.6'
+    compile 'commons-cli:commons-cli:1.3.1'
 }
 
 task 'load-geojson' (type:JavaExec) {
@@ -22,6 +23,7 @@ task 'load-geojson' (type:JavaExec) {
 task 'convert-japan-geojson' (type:JavaExec) {
     main = 'net.kaoriya.geotable.cmd.ConvertJapanGeoJson'
     classpath = sourceSets.main.runtimeClasspath
+    ignoreExitValue = true
     if (project.hasProperty('args')) {
         args project.args.split('\\s+');
     }
