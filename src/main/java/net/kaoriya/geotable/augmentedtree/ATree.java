@@ -31,14 +31,14 @@ public final class ATree<T> {
     private int len;
     private long[] startPoints;
     private long[] endPoints;
-    private long[] maxes;
+    private long[] rightMaxes;
     private ArrayList<T> value;
 
     private ATree(ArrayList<Node<T>> src) {
         len = src.size();
         startPoints = new long[len];
         endPoints = new long[len];
-        maxes = new long[len];
+        rightMaxes = new long[len];
         value = new ArrayList<T>(len);
 
         Collections.sort(src);
@@ -47,7 +47,7 @@ public final class ATree<T> {
             Node<T> n = src.get(i);
             startPoints[i] = n.start;
             endPoints[i] = n.end;
-            maxes[i] = n.max;
+            rightMaxes[i] = n.max;
             value.add(n.value);
         }
     }
@@ -76,7 +76,7 @@ public final class ATree<T> {
 
     void find(long pt, int start, int end, Consumer<Integer> found) {
         int mid = (start + end) / 2;
-        if (pt > maxes[mid]) {
+        if (pt > rightMaxes[mid]) {
             return;
         }
         if (pt < startPoints[mid]) {
