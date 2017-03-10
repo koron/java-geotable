@@ -57,7 +57,7 @@ public final class ATree<T> {
         Node n = src.get(mid);
         n.max = n.end;
         if (mid > start) {
-            n.max = Math.max(n.max, fillMax(src, 0, mid));
+            n.max = Math.max(n.max, fillMax(src, start, mid));
         }
         if (mid < end - 1) {
             n.max = Math.max(n.max, fillMax(src, mid + 1, end));
