@@ -6,25 +6,23 @@ import com.google.common.geometry.S2CellUnion;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2LatLng;
 
-import net.kaoriya.geotable.intervaltree.IntervalTree;
+import net.kaoriya.geotable.augmentedtree.ATree;
+import net.kaoriya.geotable.augmentedtree.ATree.Builder;
 
 public class GeoTable<T> {
 
-    final IntervalTree<T> tree;
+    Builder<T> builder;
+    ATree<T> tree;
 
     public GeoTable() {
-        this(new IntervalTree<T>());
-    }
-
-    GeoTable(IntervalTree<T> tree) {
-        this.tree = tree;
+        builder = new Builder<>();
     }
 
     public void add(S2CellUnion region, T value) {
         for (S2CellId cellId : region) {
             long begin = cellId.rangeMin().id();
             long end = cellId.rangeMax().id();
-            tree.addInterval(begin, end, value);
+            builder.add(begin, end, value);
         }
     }
 
@@ -37,13 +35,17 @@ public class GeoTable<T> {
     }
 
     public List<T> find(S2CellId cellId) {
-        return tree.get(cellId.id());
+        return tree.query(cellId.id());
     }
 
     /**
      * setup internal index for optimization.
      */
     public void build() {
-        tree.build();
+        if (builder == null) {
+            return;
+        }
+        tree = builder.build();
+        builder = null;
     }
 }

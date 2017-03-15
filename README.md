@@ -77,22 +77,21 @@ You'll get a `japan_cities.tsv` file in current directory.
 2.  Run benchmark
 
     ```
-    $ gradle benchmark-japan-query -Pargs=japan_cities.tsv
-    :compileJava
+    :compileJava UP-TO-DATE
     :processResources UP-TO-DATE
-    :classes
+    :classes UP-TO-DATE
     :benchmark-japan-query
-    Lap load: 15.795181 sec
-    Lap const-zero: 1.662323 sec
-      hit-rate: 0.000  qps: 601567.787
-    Lap const-tokyo: 1.865116 sec
-      hit-rate: 1.000  qps: 536159.749
-    Lap random-all-japan: 2.225336 sec
-      hit-rate: 0.264  qps: 449370.297
-    Lap random-kanto: 2.938109 sec
-      hit-rate: 0.937  qps: 340354.920
-    Lap random-out: 1.243102 sec
-      hit-rate: 0.000  qps: 804439.190
+    Lap load: 1.161188 sec
+    Lap const-zero: 0.286085 sec
+      hit-rate: 0.000  qps: 3495459.857
+    Lap const-tokyo: 0.443535 sec
+      hit-rate: 1.000  qps: 2254611.988
+    Lap random-all-japan: 0.596554 sec
+      hit-rate: 0.265  qps: 1676293.570
+    Lap random-kanto: 0.625494 sec
+      hit-rate: 0.937  qps: 1598737.466
+    Lap random-out: 0.383564 sec
+      hit-rate: 0.000  qps: 2607125.938
     ```
 
 ## Test data
