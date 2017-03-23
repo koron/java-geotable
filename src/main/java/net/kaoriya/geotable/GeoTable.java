@@ -6,13 +6,13 @@ import com.google.common.geometry.S2CellUnion;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2LatLng;
 
-import net.kaoriya.geotable.augmentedtree.ATree;
-import net.kaoriya.geotable.augmentedtree.ATree.Builder;
+import net.kaoriya.geotable.augmentedtree.Tree;
+import net.kaoriya.geotable.augmentedtree.Builder;
 
 public class GeoTable<T> {
 
     Builder<T> builder;
-    ATree<T> tree;
+    Tree<T> tree;
 
     public GeoTable() {
         builder = new Builder<>();
@@ -35,7 +35,7 @@ public class GeoTable<T> {
     }
 
     public List<T> find(S2CellId cellId) {
-        return tree.query(cellId.id());
+        return tree.searchAll(cellId.id());
     }
 
     /**
@@ -45,7 +45,7 @@ public class GeoTable<T> {
         if (builder == null) {
             return;
         }
-        tree = builder.build();
+        tree = builder.buildTree();
         builder = null;
     }
 }
