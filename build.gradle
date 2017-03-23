@@ -38,6 +38,15 @@ task 'benchmark-japan-query' (type:JavaExec) {
     }
 }
 
+// Benchmark Japan region query
+task 'benchmark-japan-query-int' (type:JavaExec) {
+    main = 'net.kaoriya.geotable.cmd.BenchmarkJapanQueryInt'
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+');
+    }
+}
+
 task 'copy-dependencies' (type:Copy) {
     new File('build/dependent-libs').mkdirs()
     copy {
