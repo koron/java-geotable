@@ -3,14 +3,14 @@ package net.kaoriya.geotable.cmd;
 import java.io.File;
 import java.io.IOException;
 
-import net.kaoriya.geotable.GeoTable;
+import net.kaoriya.geotable.GeoIntTable;
 import net.kaoriya.geotable.Loader;
 
-public class BenchmarkJapanQuery {
+public class BenchmarkJapanQueryInt {
 
-    public static GeoTable<String> load(String name) throws IOException {
+    public static GeoIntTable load(String name) throws IOException {
         try (Lap lap = new Lap("load")) {
-            return Loader.loadAsStringTable(new File(name));
+            return Loader.loadAsIntTable(new File(name));
         }
     }
 
@@ -19,7 +19,7 @@ public class BenchmarkJapanQuery {
             System.out.println("require one arg: geostring tsv file");
             System.exit(1);
         }
-        GeoTable<String> t = load(args[0]);
+        GeoIntTable t = load(args[0]);
         BenchmarkCore.benchmarkAll((p) -> t.find(p.lat, p.lng).size() > 0);
     }
 

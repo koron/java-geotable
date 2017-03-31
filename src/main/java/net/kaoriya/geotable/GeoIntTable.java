@@ -6,19 +6,19 @@ import com.google.common.geometry.S2CellUnion;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2LatLng;
 
-import net.kaoriya.geotable.augmentedtree.Tree;
-import net.kaoriya.geotable.augmentedtree.Builder;
+import net.kaoriya.geotable.augmentedtree.IntTree;
+import net.kaoriya.geotable.augmentedtree.IntBuilder;
 
-public class GeoTable<T> {
+public class GeoIntTable {
 
-    Builder<T> builder;
-    Tree<T> tree;
+    IntBuilder builder;
+    IntTree tree;
 
-    public GeoTable() {
-        builder = new Builder<>();
+    public GeoIntTable() {
+        builder = new IntBuilder();
     }
 
-    public void add(S2CellUnion region, T value) {
+    public void add(S2CellUnion region, int value) {
         for (S2CellId cellId : region) {
             long begin = cellId.rangeMin().id();
             long end = cellId.rangeMax().id();
@@ -26,26 +26,26 @@ public class GeoTable<T> {
         }
     }
 
-    public List<T> find(double lat, double lng) {
+    public List<Integer> find(double lat, double lng) {
         return find(S2LatLng.fromDegrees(lat, lng));
     }
 
-    public List<T> find(S2LatLng latLng) {
+    public List<Integer> find(S2LatLng latLng) {
         return find(S2CellId.fromLatLng(latLng));
     }
 
-    public List<T> find(S2CellId cellId) {
+    public List<Integer> find(S2CellId cellId) {
         return tree.searchAll(cellId.id());
     }
 
     /**
      * setup internal index for optimization.
      */
-    public GeoTable<T> build() {
+    public GeoIntTable build() {
         if (builder == null) {
             return this;
         }
-        tree = builder.buildTree();
+        tree = builder.buildIntTree();
         builder = null;
         return this;
     }

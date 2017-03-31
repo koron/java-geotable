@@ -4,11 +4,11 @@
 import java.io.File;
 import java.util.List;
 
-import net.kaoriya.geotable.GeoStringReader;
 import net.kaoriya.geotable.GeoTable;
+import net.kaoriya.geotable.Loader;
 
 // Load GeoString TSV
-GeoTable<String> t = GeoStringReader.loadAsTable(new File("japan_cities.tsv"));
+GeoTable<String> t = Loader.loadAsStringTable(new File("japan_cities.tsv"));
 
 // Make a query (with latitude and longitude)
 List<String> r = t.find(35.702265, 139.780935);
@@ -19,6 +19,13 @@ if (r.size() == 0) {
 
 Now `r` have list of 5 digit numbers as [全国地方公共団体コード][2] (without
 check digit).  And `r` will be empty if no data found for that points.
+
+
+To load as integer try this:
+
+```java
+GeoIntTable t = Loader.loadAsIntTable(new File("japan_cities.tsv"));
+```
 
 ## Minimum jars to query (run benchmark)
 
@@ -77,6 +84,7 @@ You'll get a `japan_cities.tsv` file in current directory.
 2.  Run benchmark
 
     ```
+    $ gradle benchmark-japan-query -Pargs=japan_cities.tsv
     :compileJava UP-TO-DATE
     :processResources UP-TO-DATE
     :classes UP-TO-DATE
@@ -92,6 +100,27 @@ You'll get a `japan_cities.tsv` file in current directory.
       hit-rate: 0.937  qps: 1598737.466
     Lap random-out: 0.383564 sec
       hit-rate: 0.000  qps: 2607125.938
+    ```
+
+3.  (OPTION) Run benchmark for storing integers version.
+
+    ```
+    $ gradle benchmark-japan-query-int -Pargs=tmp/japan_cities-geostring.tsv
+    :compileJava UP-TO-DATE
+    :processResources UP-TO-DATE
+    :classes UP-TO-DATE
+    :benchmark-japan-query-int
+    Lap load: 1.279768 sec
+    Lap const-zero: 0.278675 sec
+      hit-rate: 0.000  qps: 3588412.837
+    Lap const-tokyo: 0.419220 sec
+      hit-rate: 1.000  qps: 2385380.812
+    Lap random-all-japan: 0.631629 sec
+      hit-rate: 0.265  qps: 1583208.964
+    Lap random-kanto: 0.657858 sec
+      hit-rate: 0.937  qps: 1520085.247
+    Lap random-out: 0.354064 sec
+      hit-rate: 0.000  qps: 2824349.417
     ```
 
 ## Test data

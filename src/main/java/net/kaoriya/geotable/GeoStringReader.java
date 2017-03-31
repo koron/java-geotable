@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import com.google.common.geometry.S2CellUnion;
 
@@ -54,18 +55,17 @@ public class GeoStringReader implements Closeable {
         br.close();
     }
 
-    public static GeoTable<String> loadAsTable(File file) throws IOException {
-        GeoTable<String> tree = new GeoTable<>();
+    public static void load(File file, Consumer<Item> proc)
+        throws IOException
+    {
         try (GeoStringReader r = new GeoStringReader(file)) {
             while (true) {
                 Item item = r.read();
                 if (item == null) {
                     break;
                 }
-                tree.add(item.region, item.value);
+                proc.accept(item);
             }
         }
-        tree.build();
-        return tree;
     }
 }
